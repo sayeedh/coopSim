@@ -1,12 +1,10 @@
 #ifndef TRAFFICGEN_H
 #define TRAFFICGEN_H
+
 #include<iostream>
-//#include<random>
-#define COND_GOOD   1
-#define COND_MED    2
-#define COND_POOR   3
-#define INFTY 1000.0
-#define COND_RELAY  4
+using namespace std;
+#include "common.h"
+
 class TrafficGen
 {
  private:

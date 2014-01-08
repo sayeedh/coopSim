@@ -358,7 +358,7 @@ void PrimaryUser :: clearAndlog(double curTime){
   if(getCoopAlgorithm() == ALG_WIN && ((int)curTime)%20 == 0){
     if(stats.nDirPackets == 0){
       coop_window += 1;
-      coop_window = min(coop_window, que.size());
+      coop_window = min(coop_window, (int)que.size());
     }
     else{
       coop_window = max(1,min((stats.nGPackets/stats.nDirPackets),que.size()));
@@ -383,7 +383,7 @@ void SecondaryUser :: clearAndlog(double curTime){
   if(getCoopAlgorithm() == ALG_WIN && ((int)curTime)%20 == 0){
     if(stats.nRePackets == 0){
       coop_window += 1;
-      coop_window = min(coop_window,que.size());
+      coop_window = min(coop_window,(int)que.size());
     }
     else{
       

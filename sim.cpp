@@ -5,7 +5,7 @@ using namespace std;
 
 Simulation* Simulation::simInstance = 0;
 
-Simulation:: Simulation(int t, int np, int ns, int nr, int nc, double pr, double sr, int cond, int algo)
+Simulation:: Simulation(int t, int np, int ns, int nr, int nc, double pr, double sr, int cond, int algo, double dl, int ql)
    :userList(np+ns){
     simTime = t;
     nPUser = np;
@@ -14,15 +14,17 @@ Simulation:: Simulation(int t, int np, int ns, int nr, int nc, double pr, double
     srate = sr;
     chcond = cond;
     alg = algo;
-    topo = new Topology(np, ns, nr, nc);	
+    topo = new Topology(np, ns, nr, nc);
+    deadline  = dl;
+    qlen = ql;	
 }
 
 
-Simulation* Simulation:: getInstance(int t, int np, int ns, int nr, int nc, double pur, double sur, int cond, int alg){
-	if (simInstance == NULL){
-	  simInstance = new Simulation(t, np, ns, nr, nc, pur, sur, cond, alg);
-	}
-	return simInstance;	
+Simulation* Simulation:: getInstance(int t, int np, int ns, int nr, int nc, double pur, double sur, int cond, int alg,double dl, int ql){
+  if (simInstance == NULL){
+    simInstance = new Simulation(t, np, ns, nr, nc, pur, sur, cond, alg,dl,ql);
+  }
+  return simInstance;	
 } 
 
 void Simulation::createNodeList()
@@ -30,14 +32,11 @@ void Simulation::createNodeList()
     int i, nUser;
     nUser = nPUser + nSUser;
     for(i = 0;i<nPUser;i++){
-      userList[i] = (User *) new PrimaryUser(i,prate,chcond,alg);
+      userList[i] = (User *) new PrimaryUser(i,prate,chcond,alg,deadline,qlen);
     }    
     for(;i<nUser;i++){
-      userList[i] = (User *) new SecondaryUser(i,srate,alg);
+      userList[i] = (User *) new SecondaryUser(i,srate,alg,deadline,qlen);
     }
-#ifdef DEBUG
-    //  std::cout<< "Users created" << endl;
-#endif
 }
 
 Simulation::~Simulation()
